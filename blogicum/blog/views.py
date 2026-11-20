@@ -123,6 +123,7 @@ def add_comment(request, post_id):
 
 @login_required
 def edit_comment(request, post_id, comment_id):
+    post = get_object_or_404(visible_posts(request.user), pk=post_id)
     comment = get_object_or_404(Comment, pk=comment_id, post_id=post_id,
                                 author=request.user)
     form = CommentForm(request.POST if request.method == 'POST' else None,
@@ -137,6 +138,7 @@ def edit_comment(request, post_id, comment_id):
 
 @login_required
 def delete_comment(request, post_id, comment_id):
+    get_object_or_404(visible_posts(request.user), pk=post_id)
     comment = get_object_or_404(Comment, pk=comment_id, post_id=post_id,
                                 author=request.user)
     if request.method == 'POST':
